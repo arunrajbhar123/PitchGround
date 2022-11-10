@@ -1,5 +1,4 @@
 const express = require("express");
-const directoriesModel = require("../model/directories.model");
 const todoModel = require("../model/todo.model");
 const todoitemRoute = express.Router();
 
@@ -33,11 +32,42 @@ todoitemRoute.post("/mark-as-not-done", async (req, res) => {
 });
 
 todoitemRoute.post("/move-to-directory", async (req, res) => {
-  res.send({ message: "directory not exist" });
+  const { directoryid, id } = req.body;
+  const update = await todoModel.updateOne(
+    { _id: id },
+    { $set: { directoryid: directoryid } }
+  );
+  res.send({ message: "success" });
 });
 
 todoitemRoute.post("/list", async (req, res) => {
-  
-  res.send({ message: "directory not exist" });
+  const { pageNumber } = req.body;
+  const data = await todoModel
+    .find()
+    .sort({ _id: 1 })
+    .skip(pageNumber > 0 ? (pageNumber - 1) * 5 : 0)
+    .limit(5);
+
+  res.send({ message: "success", data });
+});
+todoitemRoute.post("/list/status-done", async (req, res) => {
+  const { pageNumber } = req.body;
+  const data = await todoModel
+    .find({ status: true })
+    .sort({ _id: 1 })
+    .skip(pageNumber > 0 ? (pageNumber - 1) * 5 : 0)
+    .limit(5);
+
+  res.send({ message: "success", data });
+});
+todoitemRoute.post("/list/status-not-done", async (req, res) => {
+  const { pageNumber } = req.body;
+  const data = await todoModel
+    .find({ status: false })
+    .sort({ _id: 1 })
+    .skip(pageNumber > 0 ? (pageNumber - 1) * 5 : 0)
+    .limit(5);
+
+  res.send({ message: "success", data });
 });
 module.exports = todoitemRoute;

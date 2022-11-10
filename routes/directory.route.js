@@ -1,11 +1,9 @@
 const express = require("express");
-const directoriesModel = require("../model/directories.model");
 const directoryModel = require("../model/directory.model");
 const directoryRoute = express.Router();
 
 directoryRoute.post("/list", async (req, res) => {
-  const data = await directoriesModel.find({});
-
+  const data = await directoryModel.find({});
   res.send({ message: "success", data });
 });
 
