@@ -48,7 +48,7 @@ todoitemRoute.post("/list", async (req, res) => {
     .skip(pageNumber > 0 ? (pageNumber - 1) * 5 : 0)
     .limit(5);
 
-  res.send({ message: "success", data });
+  res.send({ message: "success", data, pageNumber });
 });
 todoitemRoute.post("/list/status-done", async (req, res) => {
   const { pageNumber, status } = req.body;
@@ -69,7 +69,7 @@ todoitemRoute.post("/list/status-not-done", async (req, res) => {
     .skip(pageNumber > 0 ? (pageNumber - 1) * 5 : 0)
     .limit(5);
 
-  res.send({ message: "success", data });
+  res.send({ message: "success", data, pageNumber });
 });
 
 todoitemRoute.post("/list/date", async (req, res) => {
@@ -80,7 +80,7 @@ todoitemRoute.post("/list/date", async (req, res) => {
     .skip(pageNumber > 0 ? (pageNumber - 1) * 5 : 0)
     .limit(5);
 
-  res.send({ message: "success", data });
+  res.send({ message: "success", data, pageNumber });
 });
 
 module.exports = todoitemRoute;
